@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import store from "../redux/store";
 import "../styles.css";
 
 import CartItem from './CartItem';
@@ -7,6 +8,15 @@ class Cart extends Component {
   state = {
     cartGoods: []
   }
+
+  componentDidMount(){
+    store.subscribe(()=>{
+      const cartGoods = store.getState();
+      this.setState({cartGoods: cartGoods.cart})
+    })
+    
+  }
+
   getTotal() {
     const { cartGoods } = this.state;
     return cartGoods.reduce((acc, item) => acc + item.price, 0);
